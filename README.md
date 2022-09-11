@@ -5,12 +5,12 @@ Makefile is a standard language for defining a compilation and linking process.
 Let's try to do a basic not-exhaustive tutorial to introduce makefiles and to learn about common operations we can do with them.
 
 ### Requirements
-The make program is a requirement. Type `make -version` to see if you have it installed otherwise you can install it via `apt` on unix O.S. or through `choco` on Windows O.S.
+The make program is a requirement. Type `make -version` to see if you have it installed otherwise you can install it via `apt` on unix O.S. or through [choco](https://chocolatey.org/) on Windows O.S.
 
 For this tutorial you will need also a C compiler like `gcc` or `clang` or whatever else you prefer.
 
 ## Tutorial
-The first files we are going to write are the header fakeHeader.h where we put the prototype of our fake function
+The first files we are going to write are the header [fakeHeader.h](https://github.com/kinik93/makefile-basics/blob/main/fakeHeader.h) where we put the prototype of our fake function
 ```c
 #ifndef FAKEHEADER_H
 #define FAKEHEADER_H 
@@ -19,7 +19,7 @@ void fakeFunction();
 
 #endif
 ```
-and the fakeSource.c source file contains the definition of the function declared before in the fakeSuorce header
+and the [fakeSource.c](https://github.com/kinik93/makefile-basics/blob/main/fakeSource.c) source file containing the definition of the function declared before in the fakeSuorce header
 ```c
 #include "fakeHeader.h"
 #include <stdio.h>
@@ -28,7 +28,7 @@ void fakeFunction(){
     printf("Hello from a useless function\n");
 }
 ```
-and finally we write a simple main source file that invoke a function defined in the fakeHeader
+and finally we write a simple [main.c](https://github.com/kinik93/makefile-basics/blob/main/main.c) source file that invoke a function defined in the fakeHeader
 ```c
 #include "fakeHeader.h"
 
@@ -90,7 +90,7 @@ Typing ```make``` you execute the first rule getting the target *i.e.* the main 
 The second and third rule instead create the object files.
 Typing ```make clean``` all the object files .o and the main executable will be deleted.
 
-You can also define your own variables to make the rules of the previous makefile a bit more unaware about specific compiler 
+You can also define your own variables to make the rules of the previous makefile a bit more generic
 ```Bash
 CC=gcc
 CFLAGS=-I.
@@ -108,21 +108,23 @@ clean:
 	rm *.o main
 ```
 
+A lot of further details can be found in the links of the [references](#references).
+
 ## Recap
 In the end let's try to wrap up some pros and cons about makefile from a high point of view.
 
 ### What's good about makefile
 * The make program checks whether target exists and if the prerequisite files of the target are up to date; if so, it avoids generating the target again
-* A lot of libraries can be installed with few commands using make as tool. A common pattern to install an open souce library could be the following:
+* A lot of libraries can be installed with few commands using make as tool. A common pattern to install an open source library could be the following:
 ```bash
 make 
 make install
 ```
 
-Generally the ```make``` command build the library, the ```make install``` copy the headers of the library into ```/usr/include``` (or ```/usr/local/include```), the dynamic libraries ```.so``` or static libraries ```.a``` into ```usr/lib``` (or ```/usr/local/lib```) and the binaries into ```usr/bin``` (or ```/usr/local/bin```). 
+Generally the `make` command build the library and the `make install` copy the headers of the library into `/usr/include` (or `/usr/local/include`), the dynamic libraries `.so` or static libraries `.a` into `usr/lib` (or `/usr/local/lib`) and the binaries into `usr/bin` (or `/usr/local/bin`). 
 In that way after the installation of the library you can use it for example in your source code.
 
-Sometimes you can also see ```make -jN``` which run N jobs (commands) in parallel at the same time speeding up the build process.
+Sometimes you can also see `make -jN` which run N jobs (commands) in parallel at the same time speeding up the build process.
 ### What's not good about makefile
 * Makefiles are O.S. dependent so you need to adapt them to different systems. Take a look to [CMake](https://cmake.org/) as a possible solution to solve this problem.
 * Each command of each recipe must start with a tab space and that could be a real no-sense source of errors.
